@@ -36,7 +36,7 @@ public class CheckoutBasketHandler(IBasketRepository repository, IPublishEndpoin
 
         // TODO: implement outbox pattern
 
-        await publishEndpoint.Publish(eventMessage);
+        await publishEndpoint.Publish(eventMessage, cancellationToken);
         
         await repository.DeleteBasket(command.BasketCheckoutDto.UserName, cancellationToken);
 

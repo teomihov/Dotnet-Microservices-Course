@@ -1,17 +1,13 @@
-using System.Net.Security;
-
-using BuildingBlocks.Messaging.MassTransit;
-
 using Discount.Grpc;
+using BuildingBlocks.Messaging.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-var assymbly = typeof(Program).Assembly;
+var assembly = typeof(Program).Assembly;
 builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {
-    config.RegisterServicesFromAssembly(assymbly);
+    config.RegisterServicesFromAssembly(assembly);
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
@@ -44,7 +40,6 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
 });
 
 builder.Services.AddMessageBroker(builder.Configuration);
-
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
